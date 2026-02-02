@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Crash Severity Prediction</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/car_icon.png') }}"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='images/car_svg.svg') }}"
+            alt="Car Icon"
+            style="width: 40px; height: 40px"
+            class="car-icon"
+          />
+          <h1>Car Crash Severity Predictor</h1>
+        </div>
+        <p class="subtitle">
+          An intelligent system that predicts accident severity using machine
+          learning techniques
+        </p>
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Input Form -->
+        <div class="form-section">
+          <h2>Crash Details</h2>
+          <form id="predictionForm">
+            <!-- Speed & Impact -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="crash_speed">Crash Speed (km/h)</label>
+                <input
+                  type="number"
+                  id="crash_speed"
+                  name="crash_speed"
+                  min="0"
+                  max="200"
+                  value="60"
+                  required
+                />
+                <span class="helper-text">Range: 0-200</span>
+              </div>
+
+              <div class="form-group">
+                <label for="impact_angle">Impact Angle (degrees)</label>
+                <input
+                  type="number"
+                  id="impact_angle"
+                  name="impact_angle"
+                  min="0"
+                  max="180"
+                  value="45"
+                  required
+                />
+                <span class="helper-text">Range: 0-180</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
