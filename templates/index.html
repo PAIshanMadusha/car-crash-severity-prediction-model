@@ -5,18 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Crash Severity Prediction</title>
 
-    <!-- External CSS -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-
     <!-- Favicon -->
     <link
       rel="icon"
       type="image/png"
       href="{{ url_for('static', filename='images/car_icon.png') }}"
     />
+
+    <!-- External CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -263,9 +272,57 @@
                 />
               </div>
             </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-predict" id="predictBtn">
+              <span>Predict Severity</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
           </form>
         </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none">
+          <h2>Prediction Results</h2>
+
+          <div class="prediction-card" id="predictionCard">
+            <div class="prediction-main">
+              <div class="prediction-label">Predicted Severity</div>
+              <div class="prediction-value" id="predictionValue">-</div>
+              <div class="risk-badge" id="riskBadge">-</div>
+            </div>
+
+            <div class="confidence-bar">
+              <div class="confidence-label">Confidence</div>
+              <div class="confidence-progress">
+                <div class="confidence-fill" id="confidenceFill"></div>
+              </div>
+              <div class="confidence-value" id="confidenceValue">0%</div>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="probabilityChart"></canvas>
+          </div>
+          <div class="probability-list" id="probabilityList"></div>
+        </div>
       </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          Car Crash Severity Predictor &copy; 2026 | Developed by
+          <a href="https://github.com/PAIshanMadusha" target="_blank">
+            PAIshanMadusha
+          </a>
+        </p>
+      </footer>
     </div>
 
     <!-- External JS -->
