@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Crash Severity Prediction</title>
 
+    <!-- External CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
     <!-- Favicon -->
     <link
       rel="icon"
@@ -38,7 +44,7 @@
         <div class="form-section">
           <h2>Crash Details</h2>
           <form id="predictionForm">
-            <!-- Speed & Impact -->
+            <!-- Crash Parameters -->
             <div class="form-group-row">
               <div class="form-group">
                 <label for="crash_speed">Crash Speed (km/h)</label>
@@ -68,9 +74,201 @@
                 <span class="helper-text">Range: 0-180</span>
               </div>
             </div>
+
+            <!-- Safety Features -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="airbag">Airbag Deployed</label>
+                <select id="airbag" name="airbag" required>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="seatbelt">Seatbelt Used</label>
+                <select id="seatbelt" name="seatbelt" required>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Environmental Conditions -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="weather">Weather Conditions</label>
+                <select id="weather" name="weather" required>
+                  <option value="Clear">Clear</option>
+                  <option value="Rain">Rain</option>
+                  <option value="Fog">Fog</option>
+                  <option value="Snow">Snow</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="road">Road Conditions</label>
+                <select id="road" name="road" required>
+                  <option value="Dry">Dry</option>
+                  <option value="Wet">Wet</option>
+                  <option value="Icy">Icy</option>
+                  <option value="Uneven">Uneven</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Crash Details -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="crash_type">Crash Type</label>
+                <select id="crash_type" name="crash_type" required>
+                  <option value="Rear-end">Rear-end</option>
+                  <option value="Side impact">Side impact</option>
+                  <option value="Head-on">Head-on</option>
+                  <option value="Rollover">Rollover</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="vehicle_type">Vehicle Type</label>
+                <select id="vehicle_type" name="vehicle_type" required>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Truck">Truck</option>
+                  <option value="Motorcycle">Motorcycle</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Vehicle Condition -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="vehicle_age">Vehicle Age (years)</label>
+                <input
+                  type="number"
+                  id="vehicle_age"
+                  name="vehicle_age"
+                  min="0"
+                  max="30"
+                  value="5"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="brake">Brake Condition</label>
+                <select id="brake" name="brake" required>
+                  <option value="Good">Good</option>
+                  <option value="Worn out">Worn out</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="tire">Tire Condition</label>
+                <select id="tire" name="tire" required>
+                  <option value="Good">Good</option>
+                  <option value="Worn out">Worn out</option>
+                </select>
+              </div>
+
+              <!-- Driver Details & Alcohol Level -->
+              <div class="form-group">
+                <label for="driver_age">Driver Age</label>
+                <input
+                  type="number"
+                  id="driver_age"
+                  name="driver_age"
+                  min="16"
+                  max="100"
+                  value="35"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="driver_experience">Driver Experience (years)</label>
+                <input
+                  type="number"
+                  id="driver_experience"
+                  name="driver_experience"
+                  min="0"
+                  max="80"
+                  value="10"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="alcohol_level">Alcohol Level (BAC%)</label>
+                <input
+                  type="number"
+                  id="alcohol_level"
+                  name="alcohol_level"
+                  min="0"
+                  max="0.3"
+                  step="0.01"
+                  value="0"
+                  required
+                />
+                <span class="helper-text">Legal limit: 0.08</span>
+              </div>
+            </div>
+
+            <!-- Distraction, Time of Day & Other Factors -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="distraction">Distraction Level</label>
+                <select id="distraction" name="distraction">
+                  <option value="">None</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Drowsiness">Drowsiness</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="time_of_day">Time of Day</label>
+                <select id="time_of_day" name="time_of_day" required>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Night">Night</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="traffic">Traffic Density</label>
+                <select id="traffic" name="traffic" required>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="visibility">Visibility Distance (m)</label>
+                <input
+                  type="number"
+                  id="visibility"
+                  name="visibility"
+                  min="0"
+                  max="500"
+                  value="300"
+                  required
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
     </div>
+
+    <!-- External JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
