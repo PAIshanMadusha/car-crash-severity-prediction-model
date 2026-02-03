@@ -1,23 +1,28 @@
+// Chart.js instance
 let probabilityChart = null;
 
+// Handle form submission
 document
   .getElementById("predictionForm")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Disable button and show loading state
     const btn = document.getElementById("predictBtn");
     btn.disabled = true;
     btn.innerHTML = "<span>Predicting...</span>";
 
-    // Collect form data
+    // Gather form data
     const formData = new FormData(e.target);
     const data = {};
 
+    // Convert FormData to JSON object
     formData.forEach((value, key) => {
       data[key] = value;
     });
 
     try {
+      // Send POST request to server
       const response = await fetch("/predict", {
         method: "POST",
         headers: {
@@ -26,8 +31,10 @@ document
         body: JSON.stringify(data),
       });
 
+      // Parse JSON response
       const result = await response.json();
 
+      // Display results
       if (result.success) {
         displayResults(result);
       } else {
@@ -35,7 +42,7 @@ document
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Prediction failed. Please try again.");
+      alert("Prediction failed. Please try again!");
     } finally {
       btn.disabled = false;
       btn.innerHTML =
@@ -43,9 +50,23 @@ document
     }
   });
 
+// Display prediction results
 function displayResults(result) {
+  // Get DOM elements
   const resultsSection = document.getElementById("resultsSection");
+  const emptyState = document.getElementById("emptyState");
+  const resultsContent = document.getElementById("resultsContent");
+
+  // Show results section
   resultsSection.style.display = "block";
+
+  // Hide empty state
+  emptyState.style.display = "none";
+
+  // Show results content
+  resultsContent.style.display = "block";
+
+  // Scroll to results
   resultsSection.scrollIntoView({ behavior: "smooth" });
 
   // Update prediction value
@@ -62,23 +83,29 @@ function displayResults(result) {
   document.getElementById("confidenceFill").style.width = confidence + "%";
   document.getElementById("confidenceValue").textContent = confidence + "%";
 
-  // Update probability chart
+  // Update chart
   updateChart(result.probabilities);
 
   // Update probability list
   updateProbabilityList(result.probabilities);
 }
 
+// Update Chart.js bar chart
 function updateChart(probabilities) {
+  // Get chart context
   const ctx = document.getElementById("probabilityChart").getContext("2d");
 
+  // Destroy existing chart if it exists
   if (probabilityChart) {
     probabilityChart.destroy();
   }
 
+  // Extract labels from probabilities
   const labels = Object.keys(probabilities);
+  // Map probabilities to percentage values
   const values = Object.values(probabilities).map((v) => (v * 100).toFixed(1));
 
+  // Create new bar chart
   probabilityChart = new Chart(ctx, {
     type: "bar",
     data: {
@@ -110,7 +137,7 @@ function updateChart(probabilities) {
         },
         title: {
           display: true,
-          text: "Severity Probability Distribution",
+          text: "Severity Probabilities Distribution",
           font: {
             size: 16,
             weight: "bold",
@@ -132,12 +159,16 @@ function updateChart(probabilities) {
   });
 }
 
+// Update probability list
 function updateProbabilityList(probabilities) {
+  // Get list container
   const listContainer = document.getElementById("probabilityList");
   listContainer.innerHTML = "";
 
+  // Sort probabilities in descending order
   const sorted = Object.entries(probabilities).sort((a, b) => b[1] - a[1]);
 
+  // Create list items
   sorted.forEach(([severity, prob]) => {
     const item = document.createElement("div");
     item.className = "prob-item";
@@ -150,7 +181,7 @@ function updateProbabilityList(probabilities) {
     value.className = "prob-value";
     value.textContent = (prob * 100).toFixed(1) + "%";
 
-    // Color coding based on severity
+    // Color code based on severity
     if (severity === "Fatal") {
       value.style.color = "#e74c3c";
     } else if (severity === "Severe Injury") {
@@ -165,9 +196,9 @@ function updateProbabilityList(probabilities) {
   });
 }
 
-// Add keyboard shortcuts
+// Keyboard shortcut for form submission
 document.addEventListener("keydown", function (e) {
-  // Ctrl/Cmd + Enter to submit
+  // Check for Ctrl+Enter or Cmd+Enter
   if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
     document
       .getElementById("predictionForm")

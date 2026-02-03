@@ -64,7 +64,7 @@
                   value="60"
                   required
                 />
-                <span class="helper-text">Range: 0-200</span>
+                <span class="helper-text">Range: 0 - 200 km/h</span>
               </div>
 
               <div class="form-group">
@@ -78,7 +78,7 @@
                   value="45"
                   required
                 />
-                <span class="helper-text">Range: 0-180</span>
+                <span class="helper-text">Range: 0 - 180 degrees</span>
               </div>
             </div>
 
@@ -160,6 +160,7 @@
                   value="5"
                   required
                 />
+                <span class="helper-text">Range: 0 - 30 years</span>
               </div>
 
               <div class="form-group">
@@ -192,6 +193,7 @@
                   value="35"
                   required
                 />
+                <span class="helper-text">Range: 16 - 100 years</span>
               </div>
             </div>
 
@@ -207,6 +209,7 @@
                   value="10"
                   required
                 />
+                <span class="helper-text">Range: 0 - 80 years</span>
               </div>
 
               <div class="form-group">
@@ -215,6 +218,7 @@
                   type="number"
                   id="alcohol_level"
                   name="alcohol_level"
+                  inputmode="decimal"
                   min="0"
                   max="0.3"
                   step="0.01"
@@ -268,6 +272,7 @@
                   value="300"
                   required
                 />
+                <span class="helper-text"> Range: 0 - 500 meters</span>
               </div>
             </div>
 
@@ -278,7 +283,7 @@
                 <path
                   d="M5 12H19M19 12L12 5M19 12L12 19"
                   stroke="currentColor"
-                  stroke-width="2"
+                  stroke-width="3"
                 />
               </svg>
             </button>
@@ -286,29 +291,65 @@
         </div>
 
         <!-- Results Section -->
-        <div class="results-section" id="resultsSection" style="display: none">
+        <div class="results-section" id="resultsSection">
           <h2>Prediction Results</h2>
 
-          <div class="prediction-card" id="predictionCard">
-            <div class="prediction-main">
-              <div class="prediction-label">Predicted Severity</div>
-              <div class="prediction-value" id="predictionValue">-</div>
-              <div class="risk-badge" id="riskBadge">-</div>
-            </div>
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 24 24"
+              fill="none"
+              class="empty-icon"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M12 8v4m0 4h.01"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke="currentColor"
+              />
+            </svg>
+            <p class="empty-text">
+              Fill in the crash details and click "Predict Severity" to see
+              results
+            </p>
+          </div>
 
-            <div class="confidence-bar">
-              <div class="confidence-label">Confidence</div>
-              <div class="confidence-progress">
-                <div class="confidence-fill" id="confidenceFill"></div>
+          <!-- Prediction Card -->
+          <div
+            class="results-content"
+            id="resultsContent"
+            style="display: none"
+          >
+            <div class="prediction-card" id="predictionCard">
+              <div class="prediction-main">
+                <div class="prediction-label">Predicted Severity</div>
+                <div class="prediction-value" id="predictionValue">-</div>
+                <div class="risk-badge" id="riskBadge">-</div>
               </div>
-              <div class="confidence-value" id="confidenceValue">0%</div>
-            </div>
-          </div>
 
-          <div class="chart-container">
-            <canvas id="probabilityChart"></canvas>
+              <div class="confidence-bar">
+                <div class="confidence-label">Confidence</div>
+                <div class="confidence-progress">
+                  <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+                <div class="confidence-value" id="confidenceValue">0%</div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="probabilityChart"></canvas>
+            </div>
+            <div class="probability-list" id="probabilityList"></div>
           </div>
-          <div class="probability-list" id="probabilityList"></div>
         </div>
       </div>
 
