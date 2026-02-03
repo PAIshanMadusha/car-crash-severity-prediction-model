@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Crash Severity Prediction</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/car_icon.png') }}"
+    />
+
+    <!-- External CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='images/car_svg.svg') }}"
+            alt="Car Icon"
+          />
+          <h1>Car Crash Severity Predictor</h1>
+        </div>
+        <p class="subtitle">
+          An intelligent system that predicts accident severity using machine
+          learning techniques
+        </p>
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Input Form -->
+        <div class="form-section">
+          <h2>Crash Details</h2>
+          <form id="predictionForm">
+            <!-- Crash Parameters -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="crash_speed">Crash Speed (km/h)</label>
+                <input
+                  type="number"
+                  id="crash_speed"
+                  name="crash_speed"
+                  min="0"
+                  max="200"
+                  value="60"
+                  required
+                />
+                <span class="helper-text">Range: 0 - 200 km/h</span>
+              </div>
+
+              <div class="form-group">
+                <label for="impact_angle">Impact Angle (degrees)</label>
+                <input
+                  type="number"
+                  id="impact_angle"
+                  name="impact_angle"
+                  min="0"
+                  max="180"
+                  value="45"
+                  required
+                />
+                <span class="helper-text">Range: 0 - 180 degrees</span>
+              </div>
+            </div>
+
+            <!-- Safety Features -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="airbag">Airbag Deployed</label>
+                <select id="airbag" name="airbag" required>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="seatbelt">Seatbelt Used</label>
+                <select id="seatbelt" name="seatbelt" required>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Environmental Conditions -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="weather">Weather Conditions</label>
+                <select id="weather" name="weather" required>
+                  <option value="Clear">Clear</option>
+                  <option value="Rain">Rain</option>
+                  <option value="Fog">Fog</option>
+                  <option value="Snow">Snow</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="road">Road Conditions</label>
+                <select id="road" name="road" required>
+                  <option value="Dry">Dry</option>
+                  <option value="Wet">Wet</option>
+                  <option value="Icy">Icy</option>
+                  <option value="Uneven">Uneven</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Crash Details -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="crash_type">Crash Type</label>
+                <select id="crash_type" name="crash_type" required>
+                  <option value="Rear-end">Rear-end</option>
+                  <option value="Side impact">Side impact</option>
+                  <option value="Head-on">Head-on</option>
+                  <option value="Rollover">Rollover</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="vehicle_type">Vehicle Type</label>
+                <select id="vehicle_type" name="vehicle_type" required>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Truck">Truck</option>
+                  <option value="Motorcycle">Motorcycle</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Vehicle Condition -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="vehicle_age">Vehicle Age (years)</label>
+                <input
+                  type="number"
+                  id="vehicle_age"
+                  name="vehicle_age"
+                  min="0"
+                  max="30"
+                  value="5"
+                  required
+                />
+                <span class="helper-text">Range: 0 - 30 years</span>
+              </div>
+
+              <div class="form-group">
+                <label for="brake">Brake Condition</label>
+                <select id="brake" name="brake" required>
+                  <option value="Good">Good</option>
+                  <option value="Worn out">Worn out</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="tire">Tire Condition</label>
+                <select id="tire" name="tire" required>
+                  <option value="Good">Good</option>
+                  <option value="Worn out">Worn out</option>
+                </select>
+              </div>
+
+              <!-- Driver Details & Alcohol Level -->
+              <div class="form-group">
+                <label for="driver_age">Driver Age</label>
+                <input
+                  type="number"
+                  id="driver_age"
+                  name="driver_age"
+                  min="16"
+                  max="100"
+                  value="35"
+                  required
+                />
+                <span class="helper-text">Range: 16 - 100 years</span>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="driver_experience">Driver Experience (years)</label>
+                <input
+                  type="number"
+                  id="driver_experience"
+                  name="driver_experience"
+                  min="0"
+                  max="80"
+                  value="10"
+                  required
+                />
+                <span class="helper-text">Range: 0 - 80 years</span>
+              </div>
+
+              <div class="form-group">
+                <label for="alcohol_level">Alcohol Level (BAC%)</label>
+                <input
+                  type="number"
+                  id="alcohol_level"
+                  name="alcohol_level"
+                  inputmode="decimal"
+                  min="0"
+                  max="0.3"
+                  step="0.01"
+                  value="0"
+                  required
+                />
+                <span class="helper-text">Legal limit: 0.08</span>
+              </div>
+            </div>
+
+            <!-- Distraction, Time of Day & Other Factors -->
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="distraction">Distraction Level</label>
+                <select id="distraction" name="distraction">
+                  <option value="">None</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Drowsiness">Drowsiness</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="time_of_day">Time of Day</label>
+                <select id="time_of_day" name="time_of_day" required>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Night">Night</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="traffic">Traffic Density</label>
+                <select id="traffic" name="traffic" required>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="visibility">Visibility Distance (m)</label>
+                <input
+                  type="number"
+                  id="visibility"
+                  name="visibility"
+                  min="0"
+                  max="500"
+                  value="300"
+                  required
+                />
+                <span class="helper-text"> Range: 0 - 500 meters</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-predict" id="predictBtn">
+              <span>Predict Severity</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="3"
+                />
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+          <h2>Prediction Results</h2>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 24 24"
+              fill="none"
+              class="empty-icon"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M12 8v4m0 4h.01"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke="currentColor"
+              />
+            </svg>
+            <p class="empty-text">
+              Fill in the crash details and click "Predict Severity" to see
+              results
+            </p>
+          </div>
+
+          <!-- Prediction Card -->
+          <div
+            class="results-content"
+            id="resultsContent"
+            style="display: none"
+          >
+            <div class="prediction-card" id="predictionCard">
+              <div class="prediction-main">
+                <div class="prediction-label">Predicted Severity</div>
+                <div class="prediction-value" id="predictionValue">-</div>
+                <div class="risk-badge" id="riskBadge">-</div>
+              </div>
+
+              <div class="confidence-bar">
+                <div class="confidence-label">Confidence</div>
+                <div class="confidence-progress">
+                  <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+                <div class="confidence-value" id="confidenceValue">0%</div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="probabilityChart"></canvas>
+            </div>
+            <div class="probability-list" id="probabilityList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          Car Crash Severity Predictor &copy; 2026 | Developed by
+          <a href="https://github.com/PAIshanMadusha" target="_blank">
+            PAIshanMadusha
+          </a>
+        </p>
+      </footer>
+    </div>
+
+    <!-- External JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
