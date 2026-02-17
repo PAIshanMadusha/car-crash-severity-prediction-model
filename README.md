@@ -127,7 +127,6 @@ car-crash-severity-prediction-model/
 ├── Procfile
 ├── README.md
 └── requirements.txt                    # All python dependencies
-
 ```
 
 ---
